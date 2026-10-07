@@ -15,7 +15,9 @@ describe("workflow relogio (Hobby)", () => {
 
   it("bate o tick HTTP e não o cron diário da Vercel", () => {
     expect(yml).toContain(CAMINHO_DO_TICK);
-    expect(yml).toMatch(/schedule:/);
+    // O fork usa scheduler próprio; Actions só permite batida manual explícita.
+    expect(yml).toMatch(/^  workflow_dispatch:/m);
+    expect(yml).not.toMatch(/^  schedule:/m);
     expect(yml).toMatch(/RELOGIO_LIGADO/);
     expect(yml).toMatch(/RELOGIO_APP_URL/);
     expect(yml).toMatch(/RELOGIO_SECRET/);
